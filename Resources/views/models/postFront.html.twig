@@ -1,0 +1,18 @@
+{% extends 'FulgurioLightCMSBundle::base.html.twig' %}
+{% block content %}
+			<article>
+				<h1>{{ currentPage.title }}</h1>
+				<div>
+{% set parents = dataForBreadcrumb(currentPage) %}
+					<ul class="breadcrumb">
+{% if parents is not null %}
+{%   for parent in parents %}
+						<li class="active"><a href="{{ pagePath(parent) }}">{{ parent.title }}</a> <span class="divider">/</span></li>
+{%   endfor %}
+{% endif %}
+						<li>{{ currentPage.title }}</li>
+					</ul>
+				</div>ddd
+{{ currentPage.content|raw }}
+			</article>
+{% endblock %}

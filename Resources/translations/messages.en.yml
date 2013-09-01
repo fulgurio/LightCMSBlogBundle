@@ -1,0 +1,7 @@
+fulgurio:
+  lightcmsblog:
+    datetime_format:              Y-m-d
+    posts_list:
+      previous_posts:             Previous posts
+      next_posts:                 Next posts
+      posted_at:                  Posted at %DATE%

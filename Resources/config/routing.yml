@@ -1,0 +1,15 @@
+AdminPostsAdd:
+    pattern:  /admin/posts/add
+    defaults: { _controller: FulgurioLightCMSBlogBundle:AdminPost:add }
+
+AdminPostsEdit:
+    pattern:  /admin/posts/{pageId}/edit
+    defaults: { _controller: FulgurioLightCMSBlogBundle:AdminPost:edit }
+
+AdminPostsRemove:
+    pattern:  /admin/posts/{pageId}/remove
+    defaults: { _controller: FulgurioLightCMSBlogBundle:AdminPost:remove }
+
+AdminPosts:
+    pattern:  /admin/posts/
+    defaults: { _controller: FulgurioLightCMSBlogBundle:AdminPost:list }

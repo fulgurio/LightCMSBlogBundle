@@ -1,0 +1,38 @@
+fulgurio:
+  lightcms:
+    header_link:
+      posts_link:                   Posts
+    pages:
+      add_form:
+        model:
+          postsList:                Posts list
+  lightcmsblog:
+    post_not_found:                 Post not found
+    posts:
+      go_to_posts_manager:          Go to posts manager
+      posts_list_page_not_found:    Posts list page is not found, please load it with fixture or create it manually
+      title:                        Posts admin
+      legend:                       Posts
+      add_post_button:              Add new post
+      no_post:                      No post
+      no_root_post:                 No posts listing page exists. Please create a "post list" page
+      edit_button:                  Edit
+      remove_button:                Remove
+      view_button:                  View
+      add_form:
+        title:                      Add a new post admin
+        title_label:                Title
+        status_label:               Status
+        legend:                     Add a new post
+        nb_posts_per_page:          Number of posts per page
+        invalid_nb_posts_per_page:  Number of posts per page is not a valid number
+        success_msg:                Post has been created !
+        published_at_label:         Published at
+      edit_form:
+        title:                      Edit post admin
+        legend:                     Edit post
+        success_msg:                Post has been modified !
+      delete_confirm_message:       Are you sure to delete "%title%" ?
+    medias:
+      wysiwyg:
+        insert_into_post:           Insert into post

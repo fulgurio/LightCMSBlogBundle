@@ -1,0 +1,20 @@
+{% extends 'FulgurioLightCMSBundle::base.html.twig' %}
+{% block content %}
+			<h1>{{ currentPage.title }}</h1>
+			<br />
+{% if posts is not empty %}
+			<ul class="unstyled">
+{%   for key, post in posts %}
+				<li>
+					<hr />
+					<article>
+						<h2>{{ post.title }}</h2>
+						<span class="muted">{% trans with { '%DATE%' : post.createdAt|date('fulgurio.lightcmsblog.datetime_format'|trans) } %}fulgurio.lightcmsblog.posts_list.posted_at{% endtrans %}</span>
+{{     post.content|raw }}
+					</article>
+				</li>
+{%   endfor %}
+			</ul>
+{{ knp_pagination_render(posts, 'FulgurioLightCMSBlogBundle::postsPagination.html.twig') }}
+{% endif %}
+{% endblock %}
