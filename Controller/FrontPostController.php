@@ -23,11 +23,7 @@ class FrontPostController extends FrontPageController
      */
     public function showAction()
     {
-        $templateName = isset($models[$this->page->getModel()]['front']['template']) ? $models[$this->page->getModel()]['front']['template'] : 'FulgurioLightCMSBundle:models:standardFront.html.twig';
-        $pageRoot = $this->page->getSlug() == '' ? $this->page : $this->getDoctrine()->getRepository('FulgurioLightCMSBundle:Page')->findOneByFullpath('');
-        return $this->render($templateName, array(
-            'pageRoot' => $pageRoot,
-            'currentPage' => $this->page
-        ));
+        // Will be usefull for comment filter
+        return parent::showAction();
     }
 }
