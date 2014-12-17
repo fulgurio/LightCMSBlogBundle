@@ -10,7 +10,7 @@ fulgurio:
     post_not_found:                 Article non trouvé
     posts:
       go_to_posts_manager:          Aller à la gestion des articles
-      posts_list_page_not_found:    La page de listing des articles n'a pas été trouvé, merci de charger les "fixtures", ou de créer la page manuellement.
+      posts_list_page_not_found:    La page de listing des articles n'a pas été trouvée, merci de charger les "fixtures", ou de créer la page manuellement.
       title:                        Administration des articles
       legend:                       Articles
       add_post_button:              Ajouter un nouvel article
