@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Fulgurio\LightCMSBlogBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -40,8 +41,8 @@ class FulgurioLightCMSBlogExtension extends Extension
         $models['postsList'] = array(
                 'name' => 'posts_list',
                 'back' => array(
-                        'form' =>       'Fulgurio\LightCMSBlogBundle\Form\AdminPostsListPageType',
-                        'handler' =>    'Fulgurio\LightCMSBlogBundle\Form\AdminPostsListPageHandler',
+                        'form' =>       'Fulgurio\LightCMSBlogBundle\Form\Type\AdminPostsListPageType',
+                        'handler' =>    'Fulgurio\LightCMSBlogBundle\Form\Handler\AdminPostsListPageHandler',
                         'template' =>   'FulgurioLightCMSBlogBundle:models:postsListAdminAddForm.html.twig',
                         'view' =>       'FulgurioLightCMSBlogBundle:models:postsListAdminView.html.twig',
                 ),
@@ -49,23 +50,23 @@ class FulgurioLightCMSBlogExtension extends Extension
                         'template' =>   'FulgurioLightCMSBlogBundle:models:postsListFront.html.twig',
                         'controller' => 'Fulgurio\LightCMSBlogBundle\Controller\FrontPostsListController::list',
                 ),
-                'allow_childrens' => FALSE,
-                'is_unique'       => TRUE
+                'allow_children' => TRUE,
+                'is_unique' => FALSE
         );
         $models['post'] = array(
                 'name' => 'post',
                 'back' => array(
-                        'form' =>       'Fulgurio\LightCMSBlogBundle\Form\AdminPostType',
-                        'handler' =>    'Fulgurio\LightCMSBlogBundle\Form\AdminPostHandler',
+                        'form' =>       'Fulgurio\LightCMSBlogBundle\Form\Type\AdminPostType',
+                        'handler' =>    'Fulgurio\LightCMSBlogBundle\Form\Handler\AdminPostHandler',
                         'template' =>   'FulgurioLightCMSBlogBundle:models:postAdminAddForm.html.twig',
                 ),
                 'front' => array(
                         'template' =>   'FulgurioLightCMSBlogBundle:models:postFront.html.twig',
                         'controller' => 'Fulgurio\LightCMSBlogBundle\Controller\FrontPostController::show',
                 ),
-                'allow_childrens' => FALSE,
-                'is_unique'       => FALSE,
-                'hidden'          => TRUE
+                'allow_children' => FALSE,
+                'is_unique'      => FALSE,
+                'hidden'         => TRUE
         );
         $container->setParameter('fulgurio_light_cms.models', $models);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));

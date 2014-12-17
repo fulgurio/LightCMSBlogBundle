@@ -1,0 +1,28 @@
+{
+    "name": "fulgurio/light-cms-blog-bundle",
+    "description": "Blog module of LigthCMS bundle",
+    "type": "symfony-bundle",
+    "authors": [{
+            "name": "Fulgurio",
+            "homepage": "http://fulgurio.net"
+        }
+    ],
+    "keywords": [
+        "content management system",
+        "cms",
+        "blog"
+    ],
+    "homepage": "http://github.com/fulgurio/LightCMSBlogBundle",
+    "license": "GPL",
+    "require": {
+        "knplabs/knp-paginator-bundle": "~2.4",
+        "fulgurio/light-cms-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Fulgurio\\LightCMSBlogBundle": ""
+        }
+    },
+    "target-dir": "Fulgurio/LightCMSBlogBundle",
+    "minimum-stability": "dev"
+}

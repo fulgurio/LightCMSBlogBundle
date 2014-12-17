@@ -12,10 +12,7 @@ namespace Fulgurio\LightCMSBlogBundle\Controller;
 
 use Fulgurio\LightCMSBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Controller managing posts
@@ -44,7 +41,7 @@ class AdminPostController extends Controller
         {
              $parent = NULL;
         }
-        $query = $this->getDoctrine()->getEntityManager()->createQuery('SELECT p FROM FulgurioLightCMSBundle:Page p WHERE p.page_type=:pageType ORDER BY p.created_at DESC');
+        $query = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM FulgurioLightCMSBundle:Page p WHERE p.page_type=:pageType ORDER BY p.created_at DESC');
         $query->setParameter('pageType', 'post');
         $posts = $this->get('knp_paginator')->paginate($query, $currentPage, self::DEFAULT_POST_PER_PAGE);
         return $this->render('FulgurioLightCMSBlogBundle:AdminPost:list.html.twig',
@@ -83,9 +80,9 @@ class AdminPostController extends Controller
     /**
      * Create form for page entity, use for edit or add page
      *
-     * @param Page $page
+     * @param Page $post
      * @param array $options
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     private function createPage(Page $post, $options)
     {
@@ -98,11 +95,12 @@ class AdminPostController extends Controller
         $formHandler->setForm($form);
         $formHandler->setRequest($this->get('request'));
         $formHandler->setDoctrine($this->getDoctrine());
+        $formHandler->setUser($this->getUser());
         $formHandler->setSlugSuffixSeparator($this->container->getParameter('fulgurio_light_cms.slug_suffix_separator'));
         $formHandler->setPostConfig($this->container->getParameter('fulgurio_light_cms.posts'));
         if ($formHandler->process($post))
         {
-            $this->get('session')->setFlash(
+            $this->get('session')->getFlashBag()->add(
                     'success',
                     $this->get('translator')->trans(
                             isset($options['pageId']) ? 'fulgurio.lightcmsblog.posts.edit_form.success_msg' : 'fulgurio.lightcmsblog.posts.add_form.success_msg',
@@ -132,14 +130,14 @@ class AdminPostController extends Controller
         $request = $this->container->get('request');
         if ($request->request->get('confirm') === 'yes')
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->remove($post);
             $em->flush();
-            return new RedirectResponse($this->generateUrl('AdminPosts'));
+            return $this->redirect($this->generateUrl('AdminPosts'));
         }
         else if ($request->request->get('confirm') === 'no')
         {
-            return new RedirectResponse($this->generateUrl('AdminPosts'));
+            return $this->redirect($this->generateUrl('AdminPosts'));
         }
         $templateName = $request->isXmlHttpRequest() ? 'FulgurioLightCMSBundle::adminConfirmAjax.html.twig' : 'FulgurioLightCMSBundle::adminConfirm.html.twig';
         return $this->render($templateName, array(

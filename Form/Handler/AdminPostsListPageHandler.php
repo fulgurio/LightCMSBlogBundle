@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Fulgurio\LightCMSBlogBundle\Form;
+namespace Fulgurio\LightCMSBlogBundle\Form\Handler;
 
-use Fulgurio\LightCMSBundle\Form\AdminPageHandler;
+use Fulgurio\LightCMSBundle\Form\Handler\AdminPageHandler;
 use Fulgurio\LightCMSBundle\Entity\Page;
 
 class AdminPostsListPageHandler extends AdminPageHandler
@@ -24,7 +24,7 @@ class AdminPostsListPageHandler extends AdminPageHandler
     protected function updatePageMetas(Page $page, $data)
     {
         parent::updatePageMetas($page, $data);
-        $em = $this->doctrine->getEntityManager();
+        $em = $this->doctrine->getManager();
         $em->persist($this->initMetaEntity($page, 'nb_posts_per_page', $data['nb_posts_per_page']));
     }
 }

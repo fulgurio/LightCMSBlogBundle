@@ -8,10 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Fulgurio\LightCMSBlogBundle\Form;
+namespace Fulgurio\LightCMSBlogBundle\Form\Type;
 
-use Fulgurio\LightCMSBundle\Form\AdminPageType;
-use Symfony\Component\Form\FormBuilder;
+use Fulgurio\LightCMSBundle\Form\Type\AdminPageType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class AdminPostsListPageType extends AdminPageType
 {
@@ -42,13 +42,13 @@ class AdminPostsListPageType extends AdminPageType
      * (non-PHPdoc)
      * @see Symfony\Component\Form.AbstractType::buildForm()
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
         $builder
             ->add('nb_posts_per_page', 'number', array(
                     'required' => FALSE,
-                    'property_path' => FALSE,
+                    'mapped' => FALSE,
                     'invalid_message' => 'fulgurio.lightcms.posts.add_form.invalid_nb_posts_per_page',
                     'data' => $this->defautlNbPost
                     )
