@@ -21,7 +21,7 @@ class AdminPostsListPageHandler extends AdminPageHandler
      * @param Page $page
      * @param array $data
      */
-    protected function updatePageMetas(Page $page, $data)
+    protected function updatePageMetas(Page $page, array $data)
     {
         parent::updatePageMetas($page, $data);
         $em = $this->doctrine->getManager();

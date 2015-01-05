@@ -1,22 +1,12 @@
 {% extends 'FulgurioLightCMSBundle::adminBase.html.twig' %}
 
 {% block content %}
-{% if pageId is defined %}
-{%   set legend = 'fulgurio.lightcmsblog.posts.edit_form.legend' %}
-{%   set action = path('AdminPostsEdit', { 'pageId' : pageId} ) %}
-{% else %}
-{%   set legend = 'fulgurio.lightcmsblog.posts.add_form.legend' %}
-{%   set action = path('AdminPostsAdd') %}
-{% endif %}
-{%   set cancelPath = path('AdminPosts') %}
 <form action="{{ action }}" method="post">
 	<fieldset>
 		<legend>{{ legend|trans({}, 'admin') }}</legend>
-{% if form.title.vars.errors
-    or form.status.vars.errors %}
+{% if form.vars.errors is not empty %}
 			<div class="alert alert-error">
-{%   for error in form.title.vars.errors %}{{ error.messageTemplate|trans({}, 'admin') }}<br />{%   endfor %}
-{%   for error in form.status.vars.errors %}{{ error.messageTemplate|trans({}, 'admin') }}<br />{%   endfor %}
+{%   for error in form.vars.errors %}{{ error.messageTemplate|trans({}, 'admin') }}<br />{% endfor %}
 			</div>
 {% endif %}
 		<div class="row">
@@ -69,6 +59,15 @@
 {% endblock %}
 
 {% block title %}{% if pageId is defined %}{% trans from "admin" %}fulgurio.lightcms.pages.edit_form.title{% endtrans %}{% else %}{% trans from "admin" %}fulgurio.lightcms.pages.add_form.title{% endtrans %}{% endif %}{% endblock %}
+
+{% if pageId is defined %}
+{%   set legend = 'fulgurio.lightcmsblog.posts.edit_form.legend' %}
+{%   set action = path('AdminPostsEdit', { 'pageId' : pageId} ) %}
+{% else %}
+{%   set legend = 'fulgurio.lightcmsblog.posts.add_form.legend' %}
+{%   set action = path('AdminPostsAdd') %}
+{% endif %}
+{%   set cancelPath = path('AdminPosts') %}
 
 {% block javascriptBottom %}
 {% if wysiwyg is defined %}

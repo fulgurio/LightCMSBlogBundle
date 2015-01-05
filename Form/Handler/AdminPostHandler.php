@@ -100,7 +100,7 @@ class AdminPostHandler extends AdminPageHandler
      *
      * @param array $config
      */
-    public function setPostConfig($config)
+    public function setPostConfig(array $config)
     {
         $this->config = $config;
     }
