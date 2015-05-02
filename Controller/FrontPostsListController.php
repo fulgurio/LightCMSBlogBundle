@@ -29,7 +29,7 @@ class FrontPostsListController extends FrontPageController
         $config = $this->container->getParameter('fulgurio_light_cms.posts');
         $currentPage = $this->get('request')->query->get('page', 1);
         $nbPerPage = $this->page->getMetaValue('nb_posts_per_page') ? $this->page->getMetaValue('nb_posts_per_page') : $config['nb_per_page'];
-        $query = $this->getDoctrine()->getEntityManager()->createQuery('SELECT p FROM FulgurioLightCMSBundle:Page p WHERE p.page_type=:pageType ORDER BY p.created_at DESC');
+        $query = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM FulgurioLightCMSBundle:Page p WHERE p.page_type=:pageType ORDER BY p.created_at DESC');
         $query->setParameter('pageType', 'post');
         $posts = $this->get('knp_paginator')->paginate($query, $currentPage, $nbPerPage);
         $models = $this->container->getParameter('fulgurio_light_cms.models');
