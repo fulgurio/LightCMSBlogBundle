@@ -2,7 +2,7 @@
 
 {% block title %}{% trans from 'admin' %}fulgurio.lightcms.pages.title{% endtrans %}{% endblock %}
 
-{% block pageContent%}
+{% block pageContent %}
 		<section>
 			<a href="{{ path('LightCMS_Page', { fullpath: selectedPage.fullpath }) }}" target="_blank" title="{% trans from 'admin' %}fulgurio.lightcms.pages.show{% endtrans %}" class="btn"><i class="icon-search"></i></a>
 			<a href="{{ path('AdminPagesEdit', {pageId: selectedPage.id}) }}" title="{% trans from 'admin' %}fulgurio.lightcms.pages.edit{% endtrans %}" class="btn"><i class="icon-pencil"></i></a>

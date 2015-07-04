@@ -72,6 +72,7 @@ class AdminPostController extends Controller
     {
         $options = array(
             'pageId' => $pageId,
+            'pageMetas' => $this->getPageMetas($pageId)
         );
         $post = $this->getPost($pageId);
         return $this->createPage($post, $options);
@@ -178,5 +179,22 @@ class AdminPostController extends Controller
             );
         }
         return ($page);
+    }
+
+    /**
+     * Get meta data from given ID page
+     *
+     * @param number $pageId
+     * @return array
+     */
+    private function getPageMetas($pageId)
+    {
+        $pageMetas = array();
+        $metas = $this->getDoctrine()->getRepository('FulgurioLightCMSBundle:PageMeta')->findByPage($pageId);
+        foreach ($metas as $meta)
+        {
+            $pageMetas[$meta->getMetaKey()] = $meta;
+        }
+        return $pageMetas;
     }
 }

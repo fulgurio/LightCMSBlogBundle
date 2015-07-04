@@ -62,8 +62,14 @@ class AdminPostType extends AbstractType
                 'error_bubbling' => TRUE,
                 'invalid_message' => 'fulgurio.lightcms.pages.add_form.status_is_required'
             ))
-            ->add('meta_keywords', null, array('required' => FALSE, 'mapped' => FALSE))
-            ->add('meta_description', 'text', array('required' => FALSE, 'mapped' => FALSE))
+            ->add('meta_keywords', null, array(
+                'required' => FALSE,
+                'mapped' => FALSE)
+            )
+            ->add('meta_description', 'text', array(
+                'required' => FALSE,
+                'mapped' => FALSE)
+            )
         ;
     }
 
