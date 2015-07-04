@@ -10,9 +10,12 @@
 
 namespace Fulgurio\LightCMSBlogBundle\Form\Handler;
 
+use Fulgurio\LightCMSBlogBundle\FulgurioLightCMSBlogEvents;
+use Fulgurio\LightCMSBlogBundle\Event\Form\Handler\AdminPostHandlerEvent;
 use Fulgurio\LightCMSBundle\Entity\Page;
 use Fulgurio\LightCMSBundle\Form\Handler\AdminPageHandler;
 use Fulgurio\LightCMSBundle\Utils\LightCMSUtils;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AdminPostHandler extends AdminPageHandler
 {
@@ -21,6 +24,13 @@ class AdminPostHandler extends AdminPageHandler
      * @var array
      */
     private $config;
+
+    /**
+     * Dispatcher
+     *
+     * @var Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
+    private $dispatcher;
 
 
     /**
@@ -65,7 +75,9 @@ class AdminPostHandler extends AdminPageHandler
                     $page->setLang($page->getParent()->getLang());
                 }
                 $this->makeFullpath($page);
+                $event = new AdminPostHandlerEvent($page, $this);
                 $em->persist($page);
+                $this->dispatcher->dispatch(FulgurioLightCMSBlogEvents::POST_FORM_HANDLER, $event);
                 $em->flush();
                 return TRUE;
             }
@@ -99,9 +111,25 @@ class AdminPostHandler extends AdminPageHandler
      * $config setter
      *
      * @param array $config
+     * @return AdminPostHandler
      */
     public function setPostConfig(array $config)
     {
         $this->config = $config;
+
+        return $this;
+    }
+
+    /**
+     * Dispatcher setter
+     *
+     * @param EventDispatcherInterface $dispatcher
+     * @return AdminPostHandler
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+
+        return $this;
     }
 }

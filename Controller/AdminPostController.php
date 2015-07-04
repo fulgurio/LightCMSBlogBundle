@@ -91,14 +91,16 @@ class AdminPostController extends Controller
         $formClassName = isset($models['post']['back']['form']) ? $models['post']['back']['form'] : '\Fulgurio\LightCMSBlogBundle\Form\AdminPostType';
         $formHandlerClassName = isset($models['post']['back']['handler']) ? $models['post']['back']['handler'] : '\Fulgurio\LightCMSBlogBundle\Form\AdminPostHandler';
         $formType = new $formClassName($this->container);
+        $formType->setDispatcher($this->get('event_dispatcher'));
         $form = $this->createForm($formType, $post);
         $formHandler = new $formHandlerClassName();
-        $formHandler->setForm($form);
-        $formHandler->setRequest($this->get('request'));
-        $formHandler->setDoctrine($this->getDoctrine());
-        $formHandler->setUser($this->getUser());
-        $formHandler->setSlugSuffixSeparator($this->container->getParameter('fulgurio_light_cms.slug_suffix_separator'));
-        $formHandler->setPostConfig($this->container->getParameter('fulgurio_light_cms.posts'));
+        $formHandler->setForm($form)
+                ->setRequest($this->get('request'))
+                ->setDoctrine($this->getDoctrine())
+                ->setUser($this->getUser())
+                ->setSlugSuffixSeparator($this->container->getParameter('fulgurio_light_cms.slug_suffix_separator'))
+                ->setPostConfig($this->container->getParameter('fulgurio_light_cms.posts'))
+                ->setDispatcher($this->get('event_dispatcher'));
         if ($formHandler->process($post))
         {
             $this->get('session')->getFlashBag()->add(

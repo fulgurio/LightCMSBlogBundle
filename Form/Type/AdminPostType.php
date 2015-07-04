@@ -10,10 +10,13 @@
 
 namespace Fulgurio\LightCMSBlogBundle\Form\Type;
 
+use Fulgurio\LightCMSBlogBundle\FulgurioLightCMSBlogEvents;
+use Fulgurio\LightCMSBlogBundle\Event\Form\Type\AdminPostTypeEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AdminPostType extends AbstractType
 {
@@ -23,6 +26,13 @@ class AdminPostType extends AbstractType
      * @var array
      */
     private $status;
+
+    /**
+     * Dispatcher
+     *
+     * @var Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
+    private $dispatcher;
 
 
     /**
@@ -71,6 +81,8 @@ class AdminPostType extends AbstractType
                 'mapped' => FALSE)
             )
         ;
+        $event = new AdminPostTypeEvent($builder);
+        $this->dispatcher->dispatch(FulgurioLightCMSBlogEvents::POST_FORM_TYPE, $event);
     }
 
     /**
@@ -80,5 +92,15 @@ class AdminPostType extends AbstractType
     final public function getName()
     {
         return 'post';
+    }
+
+    /**
+     * Dispatcher setter
+     *
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
     }
 }
