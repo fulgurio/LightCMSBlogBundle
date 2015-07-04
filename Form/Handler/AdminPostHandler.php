@@ -42,9 +42,9 @@ class AdminPostHandler extends AdminPageHandler
                 // New post
                 if ($page->getId() == 0)
                 {
-                    if (is_a($this->user, 'Fulgurio\LightCMSBundle\Entity\User'))
+                    if (is_a($this->user, 'Symfony\Component\Security\Core\User\UserInterface'))
                     {
-                        $page->setOwner($this->user);
+                        $page->setOwnerId($this->user->getId());
                     }
                     $page->setCreatedAt(new \DateTime());
                     $page->setPageType('post');
@@ -67,10 +67,10 @@ class AdminPostHandler extends AdminPageHandler
                 $this->makeFullpath($page);
                 $em->persist($page);
                 $em->flush();
-                return (TRUE);
+                return TRUE;
             }
         }
-        return (FALSE);
+        return FALSE;
     }
 
     /**
