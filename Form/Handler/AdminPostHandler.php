@@ -56,14 +56,9 @@ class AdminPostHandler extends AdminPageHandler
                     {
                         $page->setOwnerId($this->user->getId());
                     }
-                    $page->setCreatedAt(new \DateTime());
                     $page->setPageType('post');
                     $page->setModel('post');
                     $page->setPosition(0);
-                }
-                else
-                {
-                    $page->setUpdatedAt(new \DateTime());
                 }
                 $page->setSlug(LightCMSUtils::makeSlug(isset($data['lang']) ? $data['lang'] : $page->getTitle()));
                 if (isset($data['lang']))

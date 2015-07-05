@@ -16,6 +16,7 @@
     "license": "GPL",
     "require": {
         "knplabs/knp-paginator-bundle": "~2.4",
+        "stof/doctrine-extensions-bundle": "v1.1.0",
         "fulgurio/light-cms-bundle": "dev-master"
     },
     "autoload": {
