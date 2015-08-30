@@ -38,7 +38,7 @@ class FulgurioLightCMSBlogExtension extends Extension
         {
             $models = array();
         }
-        $models['postsList'] = array(
+        $postsList = array(
                 'name' => 'posts_list',
                 'back' => array(
                         'form' =>       'Fulgurio\LightCMSBlogBundle\Form\Type\AdminPostsListPageType',
@@ -53,7 +53,15 @@ class FulgurioLightCMSBlogExtension extends Extension
                 'allow_children' => TRUE,
                 'is_unique' => FALSE
         );
-        $models['post'] = array(
+        if (isset($models['postsList']))
+        {
+            $models['postsList'] = array_replace_recursive($postsList, $models['postsList']);
+        }
+        else
+        {
+            $models['postsList'] = $postsList;
+        }
+        $post = array(
                 'name' => 'post',
                 'back' => array(
                         'form' =>       'Fulgurio\LightCMSBlogBundle\Form\Type\AdminPostType',
@@ -68,6 +76,14 @@ class FulgurioLightCMSBlogExtension extends Extension
                 'is_unique'      => FALSE,
                 'hidden'         => TRUE
         );
+        if (isset($models['post']))
+        {
+            $models['post'] = array_replace_recursive($post, $models['postsList']);
+        }
+        else
+        {
+            $models['post'] = $post;
+        }
         $container->setParameter('fulgurio_light_cms.models', $models);
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
