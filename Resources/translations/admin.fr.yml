@@ -22,6 +22,7 @@ fulgurio:
       add_form:
         title:                      Ajouter un nouvel article
         title_label:                Titre
+        abstract_label:             Extrait
         status_label:               Statut
         legend:                     Ajouter un nouvel article
         nb_posts_per_page:          Nombre d'articles par page

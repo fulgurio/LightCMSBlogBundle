@@ -12,21 +12,27 @@
 		<div class="row">
 			<div class="span7">
 				<div class="control-group">
-					<label class="control-label" for="p_title">{% trans from "admin" %}fulgurio.lightcms.pages.add_form.title_label{% endtrans %}</label>
+					<label class="control-label" for="{{ form.title.vars.id }}">{% trans from "admin" %}fulgurio.lightcms.pages.add_form.title_label{% endtrans %}</label>
 					<div class="controls">
-						<input type="text" id="p_title" class="input-xlarge" name="{{ form.title.vars.full_name }}" value="{{ form.title.vars.value }}" />
+						<input type="text" id="{{ form.title.vars.id }}" class="input-xlarge" name="{{ form.title.vars.full_name }}" value="{{ form.title.vars.value }}" />
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="p_content">{% trans from "admin" %}fulgurio.lightcms.pages.add_form.content_label{% endtrans %}</label>
+					<label class="control-label" for="{{ form.abstract.vars.id }}">{% trans from "admin" %}fulgurio.lightcmsblog.posts.add_form.abstract_label{% endtrans %}</label>
 					<div class="controls">
-						<textarea class="input-xlarge wysiwyg" id="p_content" cols="" rows="8" name="{{ form.content.vars.full_name }}">{{ form.content.vars.value }}</textarea>
+						<textarea class="input-xlarge wysiwyg" id="{{ form.abstract.vars.id }}" cols="" rows="8" name="{{ form.abstract.vars.full_name }}">{{ form.abstract.vars.value }}</textarea>
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="p_status">{% trans from "admin" %}fulgurio.lightcms.pages.add_form.status_label{% endtrans %}</label>
+					<label class="control-label" for="{{ form.content.vars.id }}">{% trans from "admin" %}fulgurio.lightcms.pages.add_form.content_label{% endtrans %}</label>
 					<div class="controls">
-						<select name="{{ form.status.vars.full_name }}" class="input-xlarge" id="p_status" >
+						<textarea class="input-xlarge wysiwyg" id="{{ form.content.vars.id }}" cols="" rows="8" name="{{ form.content.vars.full_name }}">{{ form.content.vars.value }}</textarea>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="{{ form.status.vars.id }}">{% trans from "admin" %}fulgurio.lightcms.pages.add_form.status_label{% endtrans %}</label>
+					<div class="controls">
+						<select name="{{ form.status.vars.full_name }}" class="input-xlarge" id="{{ form.status.vars.id }}">
 {% for choice in form.status.vars.choices %}
 							<option value="{{ choice.value }}"{% if choice.value in form.status.vars.value %} selected="selected"{% endif %}>{{ ('fulgurio.lightcms.pages.add_form.status.' ~ choice.label)|trans({}, 'admin') }}</option>
 {% endfor %}
@@ -36,15 +42,15 @@
 			</div>
 			<div class="well span4 pull-right">
 				<div class="control-group">
-					<label class="control-label" for="p_meta_keywords">{% trans from "admin" %}fulgurio.lightcms.pages.add_form.meta_keywords_label{% endtrans %}</label>
+					<label class="control-label" for="{{ form.meta_keywords.vars.id }}">{% trans from "admin" %}fulgurio.lightcms.pages.add_form.meta_keywords_label{% endtrans %}</label>
 					<div class="controls">
-						<input type="text" id="p_meta_keywords" class="input-xlarge" name="{{ form.meta_keywords.vars.full_name }}" value="{% if form.meta_keywords.vars.value %}{{ form.meta_keywords.vars.value }}{% else %}{% if pageMetas['meta_keywords'] is defined %}{{ pageMetas['meta_keywords'].metaValue }}{% endif %}{% endif %}" />
+						<input type="text" id="{{ form.meta_keywords.vars.id }}" class="input-xlarge" name="{{ form.meta_keywords.vars.full_name }}" value="{% if form.meta_keywords.vars.value %}{{ form.meta_keywords.vars.value }}{% else %}{% if pageMetas['meta_keywords'] is defined %}{{ pageMetas['meta_keywords'].metaValue }}{% endif %}{% endif %}" />
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="p_meta_description">{% trans from "admin" %}fulgurio.lightcms.pages.add_form.meta_description_label{% endtrans %}</label>
+					<label class="control-label" for="{{ form.meta_description.vars.id }}">{% trans from "admin" %}fulgurio.lightcms.pages.add_form.meta_description_label{% endtrans %}</label>
 					<div class="controls">
-						<textarea class="input-xlarge" id="p_meta_description" cols="" rows="5" name="{{ form.meta_description.vars.full_name }}">{% if form.meta_description.vars.value %}{{ form.meta_description.vars.value }}{% else %}{% if pageMetas['meta_description'] is defined %}{{ pageMetas['meta_description'].metaValue }}{% endif %}{% endif %}</textarea>
+						<textarea class="input-xlarge" id="{{ form.meta_description.vars.id }}" cols="" rows="5" name="{{ form.meta_description.vars.full_name }}">{% if form.meta_description.vars.value %}{{ form.meta_description.vars.value }}{% else %}{% if pageMetas['meta_description'] is defined %}{{ pageMetas['meta_description'].metaValue }}{% endif %}{% endif %}</textarea>
 					</div>
 				</div>
 			</div>

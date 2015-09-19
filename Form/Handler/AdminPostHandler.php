@@ -49,6 +49,7 @@ class AdminPostHandler extends AdminPageHandler
                 $data = $this->request->get('post');
                 $this->updatePageMetas($page, $data);
                 $em = $this->doctrine->getManager();
+                $em->persist($this->initMetaEntity($page, 'abstract', trim($data['abstract'])));
                 // New post
                 if ($page->getId() == 0)
                 {

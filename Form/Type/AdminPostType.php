@@ -65,6 +65,10 @@ class AdminPostType extends AbstractType
                     new NotBlank(array('message' => 'fulgurio.lightcms.pages.add_form.title_is_required'))
                 )
             ))
+            ->add('abstract', 'text', array(
+                'required' => FALSE,
+                'mapped' => FALSE)
+            )
             ->add('content', 'text')
             ->add('status', 'choice', array(
                 'choices'  => $this->status,

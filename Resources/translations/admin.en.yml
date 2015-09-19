@@ -22,6 +22,7 @@ fulgurio:
       add_form:
         title:                      Add a new post admin
         title_label:                Title
+        abstract_label:             Abstract
         status_label:               Status
         legend:                     Add a new post
         nb_posts_per_page:          Number of posts per page
