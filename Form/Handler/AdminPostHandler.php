@@ -49,7 +49,10 @@ class AdminPostHandler extends AdminPageHandler
                 $data = $this->request->get('post');
                 $this->updatePageMetas($page, $data);
                 $em = $this->doctrine->getManager();
-                $em->persist($this->initMetaEntity($page, 'abstract', trim($data['abstract'])));
+                if (isset($data['abstract']))
+                {
+                    $em->persist($this->initMetaEntity($page, 'abstract', trim($data['abstract'])));
+                }
                 // New post
                 if ($page->getId() == 0)
                 {
@@ -66,7 +69,7 @@ class AdminPostHandler extends AdminPageHandler
                 {
                     $page->setLang($data['lang']);
                 }
-                else if ($page->getParent())
+                else if ($page->getParent() && $page->getLang() == FALSE)
                 {
                     $page->setLang($page->getParent()->getLang());
                 }

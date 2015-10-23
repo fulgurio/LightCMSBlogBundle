@@ -32,22 +32,44 @@ class AdminPostController extends Controller
      */
     public function listAction()
     {
-        $currentPage = $this->get('request')->query->get('page', 1);
+        $request = $this->getRequest();
+        $currentPage = $request->get('page', 1);
+        $currentLanguage = NULL;
+        if ($this->container->hasParameter('fulgurio_light_cms.languages'))
+        {
+            $languages = $this->container->getParameter('fulgurio_light_cms.languages');
+            if ($request->get('lang'))
+            {
+                $currentLanguage = $this->get('session')->set('lang', $request->get('lang'));
+            }
+            $currentLanguage = $this->get('session')->get('lang', current($languages));
+        }
         try
         {
-            $parent = $this->getPostsListPage();
+            $parent = $this->getPostsListPage($currentLanguage);
         }
         catch (\Exception $e)
         {
              $parent = NULL;
         }
-        $query = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM FulgurioLightCMSBundle:Page p WHERE p.page_type=:pageType ORDER BY p.created_at DESC');
-        $query->setParameter('pageType', 'post');
-        $posts = $this->get('knp_paginator')->paginate($query, $currentPage, self::DEFAULT_POST_PER_PAGE);
+        $queryBuilder = $this->getDoctrine()->getManager()->createQueryBuilder();
+        $queryBuilder->select('p')
+                ->from('FulgurioLightCMSBundle:Page', 'p')
+                ->where('p.page_type = :pageType')
+                ->setParameter('pageType', 'post')
+                ->orderBy('p.created_at', 'DESC');
+        if ($currentLanguage)
+        {
+            $queryBuilder->andWhere('p.lang = :lang')
+                    ->setParameter('lang', $currentLanguage);
+        }
+        $posts = $this->get('knp_paginator')->paginate($queryBuilder->getQuery(), $currentPage, self::DEFAULT_POST_PER_PAGE);
         return $this->render('FulgurioLightCMSBlogBundle:AdminPost:list.html.twig',
             array(
                 'posts' => $posts,
-                'hasNoPostRoot' => is_null($parent)
+                'hasNoPostRoot' => is_null($parent),
+                'languages' => $this->container->hasParameter('fulgurio_light_cms.languages') ? $this->container->getParameter('fulgurio_light_cms.languages') : NULL,
+                'currentLanguage' => $currentLanguage
             )
         );
     }
@@ -58,7 +80,17 @@ class AdminPostController extends Controller
     public function addAction()
     {
         $post = new Page();
-        $parent = $this->getPostsListPage();
+        if ($this->container->hasParameter('fulgurio_light_cms.languages'))
+        {
+            $languages = $this->container->getParameter('fulgurio_light_cms.languages');
+            $currentLanguage = $this->get('session')->get('lang', current($languages));
+            $post->setLang($currentLanguage);
+            $parent = $this->getPostsListPage($currentLanguage);
+        }
+        else
+        {
+            $parent = $this->getPostsListPage();
+        }
         $post->setParent($parent);
         return $this->createPage($post, array());
     }
@@ -155,15 +187,20 @@ class AdminPostController extends Controller
      * @return Page
      * @throws NotFoundHttpException
      */
-    private function getPostsListPage()
+    private function getPostsListPage($currentLanguage = NULL)
     {
-        if (!$page = $this->getDoctrine()->getRepository('FulgurioLightCMSBundle:Page')->findOneBy(array('model' => 'postsList', 'page_type' => 'page')))
+        $data = array('model' => 'postsList', 'page_type' => 'page');
+        if ($currentLanguage)
+        {
+            $data['lang'] = $currentLanguage;
+        }
+        if (!$page = $this->getDoctrine()->getRepository('FulgurioLightCMSBundle:Page')->findOneBy($data))
         {
             throw new NotFoundHttpException(
                 $this->get('translator')->trans('fulgurio.lightcmsblog.posts.posts_list_page_not_found', array(), 'admin')
             );
         }
-        return ($page);
+        return $page;
     }
 
     /**

@@ -58,13 +58,22 @@ class LightCMSBlogTwigExtension extends \Twig_Extension
      * Get lastest posts
      *
      * @param number $limit
+     * @param string $lang
      * @return array|NULL
      */
-    public function getLastestPosts($limit = 10)
+    public function getLastestPosts($limit = 10, $lang = NULL)
     {
-        $em = $this->doctrine->getManager();
-        return $em->getRepository('FulgurioLightCMSBundle:Page')
-                ->findBy(array('page_type' => 'post'), array('updated_at' => 'DESC', 'created_at' => 'DESC'), $limit);
+        $data = array('page_type' => 'post');
+        if ($lang != NULL)
+        {
+            $data['lang'] = $lang;
+        }
+        return $this->doctrine->getManager()
+                ->getRepository('FulgurioLightCMSBundle:Page')
+                ->findBy($data,
+                        array('updated_at' => 'DESC', 'created_at' => 'DESC'),
+                        $limit
+        );
     }
 
     /**

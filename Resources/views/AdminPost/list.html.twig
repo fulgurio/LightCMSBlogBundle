@@ -9,6 +9,26 @@
 <p>{% trans from 'admin' %}fulgurio.lightcmsblog.posts.no_root_post{% endtrans %}</p>
 {%   else %}
 <a href="{{ path('AdminPostsAdd') }}" class="btn pull-right clearfix">{% trans from 'admin' %}fulgurio.lightcmsblog.posts.add_post_button{% endtrans %}</a>
+{% if languages is defined and languages %}
+<br class="clearfix" style="clear: both">
+<form action="{{ path('AdminPosts') }}" method="post" class="clearfix pull-right" id="posts-lang">
+	<div class="input-append">
+		<select name="lang" class="span1">
+{% for languageValue, languageLabel in languages %}
+			<option value="{{ languageValue }}"{% if currentLanguage == languageValue %} selected{% endif %}>{{ languageLabel }}</option>
+{% endfor %}
+		</select>
+		<noscript>
+			<button type="submit" class="btn">{% trans from 'admin' %}fulgurio.lightcms.valid{% endtrans %}</button>
+		</noscript>
+		<script>
+			$('#posts-lang select').change(function() {
+				$('#posts-lang').submit();
+			});
+		</script>
+	</div>
+</form>
+{% endif %}
 <br class="clearfix" style="clear: both"/>
 {% include 'FulgurioLightCMSBundle::adminMessage.html.twig' %}
 {%     if posts is empty %}

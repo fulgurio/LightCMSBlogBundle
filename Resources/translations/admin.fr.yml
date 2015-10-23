@@ -1,5 +1,6 @@
 fulgurio:
   lightcms:
+    valid:                          Valider
     header_link:
       posts_link:                   Articles
     pages:

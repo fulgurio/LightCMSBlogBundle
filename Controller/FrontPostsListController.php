@@ -27,11 +27,21 @@ class FrontPostsListController extends FrontPageController
         $filter->setParameter('status', 'published');
         $pageRoot = $this->getDoctrine()->getRepository('FulgurioLightCMSBundle:Page')->findOneBy(array('fullpath' => ''));
         $config = $this->container->getParameter('fulgurio_light_cms.posts');
-        $currentPage = $this->get('request')->query->get('page', 1);
+        $pageNumber = $this->get('request')->query->get('page', 1);
         $nbPerPage = $this->page->getMetaValue('nb_posts_per_page') ? $this->page->getMetaValue('nb_posts_per_page') : $config['nb_per_page'];
-        $query = $this->getDoctrine()->getManager()->createQuery('SELECT p FROM FulgurioLightCMSBundle:Page p WHERE p.page_type=:pageType ORDER BY p.created_at DESC');
-        $query->setParameter('pageType', 'post');
-        $posts = $this->get('knp_paginator')->paginate($query, $currentPage, $nbPerPage);
+        $queryBuilder = $this->getDoctrine()->getManager()->createQueryBuilder();
+        $queryBuilder->select('p')
+                ->from('FulgurioLightCMSBundle:Page', 'p')
+                ->where('p.page_type = :pageType')
+                ->setParameter('pageType', 'post')
+                ->orderBy('p.created_at', 'desc')
+                ;
+        if ($this->container->hasParameter('fulgurio_light_cms.languages'))
+        {
+            $queryBuilder->andWhere('p.lang = :lang')
+                    ->setParameter('lang', $this->page->getLang());
+        }
+        $posts = $this->get('knp_paginator')->paginate($queryBuilder->getQuery(), $pageNumber, $nbPerPage);
         $models = $this->container->getParameter('fulgurio_light_cms.models');
         $templateName = isset($models[$this->page->getModel()]['front']['template']) ? $models[$this->page->getModel()]['front']['template'] : 'FulgurioLightCMSBundle:models:standardFront.html.twig';
         return $this->render($templateName, array(
